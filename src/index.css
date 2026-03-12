@@ -1,0 +1,58 @@
+@import url('https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800&f[]=satoshi@400,500,700,900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-cabinet: "Cabinet Grotesk", sans-serif;
+  --font-satoshi: "Satoshi", sans-serif;
+
+  --color-primary-yellow: #ffe17c;
+  --color-charcoal: #171e19;
+  --color-sage: #b7c6c2;
+  --color-ui-white: #ffffff;
+  --color-ui-black: #000000;
+
+  --color-background: #ffffff;
+  --color-foreground: #000000;
+  --color-primary: #ffe17c;
+  --color-secondary: #b7c6c2;
+  --color-accent: #b7c6c2;
+  --color-border: #000000;
+
+  --shadow-neo: 4px 4px 0px 0px #000000;
+  --shadow-neo-lg: 8px 8px 0px 0px #000000;
+  --shadow-neo-xl: 12px 12px 0px 0px #000000;
+
+  --border-neo: 2px;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-satoshi);
+  }
+}
+
+.neo-shadow {
+  box-shadow: 4px 4px 0px 0px #000000;
+}
+
+.neo-shadow-lg {
+  box-shadow: 8px 8px 0px 0px #000000;
+}
+
+.neo-shadow-xl {
+  box-shadow: 12px 12px 0px 0px #000000;
+}
+
+.neo-border {
+  border: 2px solid #000000;
+}
+
+.dot-pattern {
+  background-image: radial-gradient(#000000 1px, transparent 1px);
+  background-size: 32px 32px;
+}
