@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { NeoButton } from '@/components/ui/NeoButton';
-import { Zap, Mail, Lock, User, AlertCircle } from 'lucide-react';
+import { Zap, Mail, Lock, User, AlertCircle, Eye, EyeOff } from 'lucide-react';
 
 const SignupPage = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { signup } = useAuth();
@@ -81,13 +82,20 @@ const SignupPage = () => {
             <div className="relative">
               <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-ui-black/40" />
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 required
-                className="w-full h-14 pl-12 pr-4 bg-ui-white neo-border font-satoshi font-bold focus:bg-primary-yellow/10 focus:outline-none transition-colors"
+                className="w-full h-14 pl-12 pr-12 bg-ui-white neo-border font-satoshi font-bold focus:bg-primary-yellow/10 focus:outline-none transition-colors"
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              <button
+                type="button"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-ui-black/40 hover:text-ui-black transition-colors"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              </button>
             </div>
           </div>
 

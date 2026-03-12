@@ -17,23 +17,23 @@ const Hero = () => {
           <div className="inline-flex items-center bg-ui-white neo-border px-4 py-1 rounded-full mb-6">
             <span className="font-satoshi font-bold text-sm">NEW: AI Content Assistant 2.0</span>
           </div>
-          <h1 className="font-cabinet font-extrabold text-6xl lg:text-8xl leading-none tracking-tighter text-ui-black mb-8">
-            Forge your <br />
-            <span style={{ WebkitTextStroke: "2px black", color: "transparent" }}>Professional</span> <br />
-            Edge.
+          <h1 className="font-cabinet font-extrabold text-6xl lg:text-8xl leading-none tracking-tighter text-ui-black mb-8 uppercase">
+            Forge Your <br />
+            <span style={{ WebkitTextStroke: "2px black", color: "transparent" }}>Developer</span> <br />
+            Portfolio.
           </h1>
           <p className="font-satoshi font-medium text-xl text-ui-black/80 max-w-xl mb-10 leading-relaxed">
-            The only platform that combines high-performance portfolio building with 
-            real-time AI insights. Built for creators who mean business.
+            Connect GitHub, LeetCode, Codeforces, and Credly. <br />
+            Manage projects, certificates, and achievements — all through a single REST API.
           </p>
           <div className="flex flex-col sm:flex-row gap-6">
             <Link to="/signup">
-              <NeoButton variant="primary" size="lg" className="w-full sm:w-auto">
-                Get Started Now <ArrowRight className="ml-2 w-6 h-6" />
+              <NeoButton variant="primary" size="lg" className="w-full sm:w-auto uppercase tracking-tighter">
+                Get Your API Key <ArrowRight className="ml-2 w-6 h-6" />
               </NeoButton>
             </Link>
-            <NeoButton variant="secondary" size="lg" className="w-full sm:w-auto">
-              Watch Demo
+            <NeoButton variant="secondary" size="lg" className="w-full sm:w-auto uppercase tracking-tighter">
+              View API Docs
             </NeoButton>
           </div>
         </motion.div>
