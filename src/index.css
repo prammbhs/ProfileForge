@@ -35,6 +35,32 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-satoshi);
+    overflow-x: hidden;
+    width: 100%;
+  }
+}
+
+/* Sidebar transition and width fixes */
+[data-sidebar="inset"] {
+  transition: width 0.2s ease-in-out, margin 0.2s ease-in-out;
+}
+
+.main-content-container {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Responsive fixes for extra small devices */
+@media (max-width: 340px) {
+  .font-cabinet.text-5xl {
+    font-size: 2.5rem;
+  }
+  .p-6 {
+    padding: 1rem;
+  }
+  .p-8 {
+    padding: 1.25rem;
   }
 }
 

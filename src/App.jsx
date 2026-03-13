@@ -8,12 +8,14 @@ import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import ConfirmSignupPage from './pages/ConfirmSignupPage';
+import PublicDocsPage from './pages/PublicDocsPage';
 import DashboardPage from './pages/DashboardPage';
 import ProfilePage from './pages/ProfilePage';
 import ApiKeysPage from './pages/ApiKeysPage';
 import CertificatesPage from './pages/CertificatesPage';
 import ProjectsPage from './pages/ProjectsPage';
 import ExternalProfilesPage from './pages/ExternalProfilesPage';
+import DashboardDocsPage from './pages/DashboardDocsPage';
 import DashboardLayout from './components/layout/DashboardLayout';
 
 function App() {
@@ -26,6 +28,7 @@ function App() {
           <Route element={<Layout><LoginPage /></Layout>} path="/login" />
           <Route element={<Layout><SignupPage /></Layout>} path="/signup" />
           <Route element={<Layout><ConfirmSignupPage /></Layout>} path="/confirm-signup" />
+          <Route element={<Layout><PublicDocsPage /></Layout>} path="/docs" />
 
           {/* Protected Routes with Sidebar Layout */}
           <Route element={<DashboardLayout />} path="/dashboard">
@@ -35,7 +38,7 @@ function App() {
             <Route element={<CertificatesPage />} path="certificates" />
             <Route element={<ProjectsPage />} path="projects" />
             <Route element={<ExternalProfilesPage />} path="profiles" />
-            <Route element={<DashboardPage />} path="docs" />
+            <Route element={<DashboardDocsPage />} path="docs" />
           </Route>
         </Routes>
       </Router>

@@ -9,6 +9,7 @@ const Navbar = () => {
   const { user, logout } = useAuth();
 
   const navLinks = [
+    { name: "Docs", href: "/docs" },
     { name: "Features", href: "/#features" },
     { name: "How it Works", href: "/#how-it-works" },
     { name: "Testimonials", href: "/#testimonials" },
@@ -26,13 +27,23 @@ const Navbar = () => {
       {/* Desktop Links */}
       <div className="hidden md:flex items-center gap-8">
         {navLinks.map((item) => (
-          <a
-            key={item.name}
-            href={item.href}
-            className="font-satoshi font-bold text-lg hover:underline decoration-ui-black decoration-2 underline-offset-4"
-          >
-            {item.name}
-          </a>
+          item.href.startsWith('/#') ? (
+            <a
+              key={item.name}
+              href={item.href}
+              className="font-satoshi font-bold text-lg hover:underline decoration-ui-black decoration-2 underline-offset-4"
+            >
+              {item.name}
+            </a>
+          ) : (
+            <Link
+              key={item.name}
+              to={item.href}
+              className="font-satoshi font-bold text-lg hover:underline decoration-ui-black decoration-2 underline-offset-4"
+            >
+              {item.name}
+            </Link>
+          )
         ))}
         <div className="flex items-center gap-4 ml-4">
           {user ? (
@@ -71,14 +82,25 @@ const Navbar = () => {
       {isOpen && (
         <div className="absolute top-20 left-0 right-0 bg-primary-yellow border-b-2 border-ui-black p-6 md:hidden flex flex-col gap-6 items-center z-40">
           {navLinks.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              className="font-satoshi font-extrabold text-2xl uppercase tracking-tighter"
-              onClick={() => setIsOpen(false)}
-            >
-              {item.name}
-            </a>
+            item.href.startsWith('/#') ? (
+              <a
+                key={item.name}
+                href={item.href}
+                className="font-satoshi font-extrabold text-2xl uppercase tracking-tighter"
+                onClick={() => setIsOpen(false)}
+              >
+                {item.name}
+              </a>
+            ) : (
+              <Link
+                key={item.name}
+                to={item.href}
+                className="font-satoshi font-extrabold text-2xl uppercase tracking-tighter"
+                onClick={() => setIsOpen(false)}
+              >
+                {item.name}
+              </Link>
+            )
           ))}
           <div className="flex flex-col gap-4 w-full">
             {user ? (

@@ -170,26 +170,26 @@ const ExternalProfilesPage = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
+    <div className="max-w-4xl mx-auto space-y-6 md:space-y-8 px-0 sm:px-4">
       <header>
-        <h1 className="font-cabinet font-extrabold text-5xl uppercase tracking-tighter">Connected Profiles</h1>
-        <p className="font-satoshi font-medium text-ui-black/60 mt-2">Link your coding platforms to pull data into your portfolio.</p>
+        <h1 className="font-cabinet font-extrabold text-3xl sm:text-4xl md:text-5xl uppercase tracking-tighter break-words">Connected Profiles</h1>
+        <p className="font-satoshi font-medium text-ui-black/60 mt-2 text-sm sm:base">Link your coding platforms to pull data into your portfolio.</p>
       </header>
 
       {success && (
-        <div className="bg-green-50 border-2 border-green-600 p-4 flex items-center gap-3">
+        <div className="bg-green-50 border-2 border-green-600 p-4 flex items-center gap-3 mx-2 sm:mx-0">
           <CheckCircle2 className="text-green-600 w-5 h-5 flex-shrink-0" />
           <p className="font-satoshi font-bold text-green-600 text-sm">{success}</p>
         </div>
       )}
       {error && (
-        <div className="bg-red-50 border-2 border-red-600 p-4 flex items-center gap-3">
+        <div className="bg-red-50 border-2 border-red-600 p-4 flex items-center gap-3 mx-2 sm:mx-0">
           <AlertTriangle className="text-red-600 w-5 h-5 flex-shrink-0" />
           <p className="font-satoshi font-bold text-red-600 text-sm">{error}</p>
         </div>
       )}
 
-      <div className="grid sm:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
         {PLATFORMS.map((platform) => {
           const Icon = platform.icon;
           const profile = profiles[platform.value];
@@ -198,22 +198,22 @@ const ExternalProfilesPage = () => {
           return (
             <div key={platform.value} className="neo-border neo-shadow bg-ui-white flex flex-col overflow-hidden">
               {/* Card Header */}
-              <div className="p-6 flex items-center gap-4" style={{ borderBottom: `3px solid ${platform.accent}` }}>
-                <div className={`w-14 h-14 ${platform.color} neo-border flex items-center justify-center flex-shrink-0`}>
-                  <Icon className="w-7 h-7" />
+              <div className="p-4 sm:p-6 flex items-center gap-4" style={{ borderBottom: `3px solid ${platform.accent}` }}>
+                <div className={`w-12 h-12 sm:w-14 sm:h-14 ${platform.color} neo-border flex items-center justify-center flex-shrink-0`}>
+                  <Icon className="w-6 h-6 sm:w-7 sm:h-7" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-cabinet font-extrabold text-xl uppercase tracking-tighter">{platform.label}</h3>
+                  <h3 className="font-cabinet font-extrabold text-lg sm:text-xl uppercase tracking-tighter truncate">{platform.label}</h3>
                   <div className="flex items-center gap-2 mt-1">
                     {isConnected ? (
                       <>
                         <span className="inline-block w-2 h-2 rounded-full bg-green-500" />
-                        <span className="font-satoshi font-bold text-xs text-green-600 uppercase tracking-widest">Connected</span>
+                        <span className="font-satoshi font-bold text-[10px] sm:text-xs text-green-600 uppercase tracking-widest">Connected</span>
                       </>
                     ) : (
                       <>
                         <span className="inline-block w-2 h-2 rounded-full bg-ui-black/20" />
-                        <span className="font-satoshi font-bold text-xs text-ui-black/40 uppercase tracking-widest">Not Linked</span>
+                        <span className="font-satoshi font-bold text-[10px] sm:text-xs text-ui-black/40 uppercase tracking-widest">Not Linked</span>
                       </>
                     )}
                   </div>
@@ -221,24 +221,24 @@ const ExternalProfilesPage = () => {
               </div>
 
               {/* Card Body */}
-              <div className="p-6 flex-1">
+              <div className="p-4 sm:p-6 flex-1">
                 {isConnected ? (
                   <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-cabinet font-extrabold text-xs uppercase tracking-widest text-ui-black/40">Username</p>
-                        <p className="font-satoshi font-bold text-lg">@{profile.username}</p>
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="min-w-0">
+                        <p className="font-cabinet font-extrabold text-[10px] uppercase tracking-widest text-ui-black/40">Username</p>
+                        <p className="font-satoshi font-bold text-base sm:text-lg truncate">@{profile.username}</p>
                       </div>
                       {profile.profile_url && (
                         <a href={profile.profile_url} target="_blank" rel="noopener noreferrer"
-                          className="p-2 neo-border-sm hover:bg-primary-yellow/20 transition-colors">
+                          className="p-2 neo-border-sm hover:bg-primary-yellow/20 transition-colors flex-shrink-0">
                           <Link2 className="w-4 h-4" />
                         </a>
                       )}
                     </div>
 
-                    <div className="flex gap-2">
-                      <NeoButton variant="secondary" size="sm" className="flex-1 gap-1 justify-center text-xs"
+                    <div className="flex flex-col xs:flex-row gap-2">
+                      <NeoButton variant="secondary" size="sm" className="flex-1 gap-1 justify-center text-[10px] sm:text-xs h-9 sm:h-auto"
                         onClick={() => handleSync(platform.value, profile.username)}
                         disabled={syncing === platform.value}>
                         {syncing === platform.value
@@ -246,7 +246,7 @@ const ExternalProfilesPage = () => {
                           : <RefreshCw className="w-3 h-3" />}
                         Fetch Data
                       </NeoButton>
-                      <NeoButton variant="secondary" size="sm" className="gap-1 justify-center text-xs px-4"
+                      <NeoButton variant="secondary" size="sm" className="gap-1 justify-center text-[10px] sm:text-xs px-4 h-9 sm:h-auto"
                         onClick={() => openDataModal(platform.value)}>
                         <Eye className="w-3 h-3" /> View
                       </NeoButton>

@@ -32,13 +32,19 @@ import { cn } from "@/lib/utils"
 export function AppSidebar() {
   const { user, logout } = useAuth()
   const location = useLocation()
-  const { state } = useSidebar()
+  const { state, isMobile, setOpenMobile } = useSidebar()
   const backendBaseUrl = import.meta.env.VITE_BACKEND_URL.split('/api/v1')[0];
 
   const getFullImageUrl = (path) => {
     if (!path) return null;
     if (path.startsWith('http')) return path;
     return `${backendBaseUrl}/${path}`;
+  };
+
+  const handleLinkClick = () => {
+    if (isMobile) {
+      setOpenMobile(false);
+    }
   };
 
   const mainNav = [
@@ -53,7 +59,7 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon" className="neo-border-r bg-ui-white">
       <SidebarHeader className="p-4 border-b-2 border-ui-black">
-        <Link to="/dashboard" className="flex items-center gap-3">
+        <Link to="/dashboard" className="flex items-center gap-3" onClick={handleLinkClick}>
           <div className="w-10 h-10 bg-ui-black flex items-center justify-center neo-border">
             <Zap className="text-primary-yellow w-6 h-6 fill-current" />
           </div>
@@ -85,7 +91,7 @@ export function AppSidebar() {
                         : "hover:bg-primary-yellow/10"
                     )}
                   >
-                    <Link to={item.url}>
+                    <Link to={item.url} onClick={handleLinkClick}>
                       <item.icon className="w-5 h-5" />
                       <span>{item.title}</span>
                     </Link>
@@ -117,7 +123,7 @@ export function AppSidebar() {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground neo-border-sm bg-ui-white mt-2"
               tooltip={user?.name}
             >
-              <Link to="/dashboard/profile" className="flex items-center gap-3">
+              <Link to="/dashboard/profile" className="flex items-center gap-3" onClick={handleLinkClick}>
                 <div className="w-8 h-8 bg-primary-yellow neo-border-sm text-[10px] flex items-center justify-center font-cabinet font-extrabold flex-shrink-0 overflow-hidden">
                   {user?.profile_image_url ? (
                     <img src={getFullImageUrl(user.profile_image_url)} alt="" className="w-full h-full object-cover" />
@@ -142,3 +148,4 @@ export function AppSidebar() {
     </Sidebar>
   )
 }
+
