@@ -32,7 +32,8 @@ const DashboardPage = () => {
   const getFullImageUrl = (path) => {
     if (!path) return null;
     if (path.startsWith('http')) return path;
-    return `${backendBaseUrl}/${path}`;
+    const normalizedPath = path.replace(/\\/g, '/');
+    return `${backendBaseUrl}/${normalizedPath}`;
   };
 
   useEffect(() => {

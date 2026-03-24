@@ -18,10 +18,16 @@ const ProjectsPage = () => {
   const [imageLinks, setImageLinks] = useState([]); // CloudFront URLs for uploaded images
   const [imagePreviews, setImagePreviews] = useState([]); // local blob preview URLs
 
+  const [quota, setQuota] = useState(null);
+
   const fetchProjects = async () => {
     try {
-      const res = await api.get('/projects');
+      const [res, quotaRes] = await Promise.all([
+        api.get('/projects'),
+        api.get('/keys/quota')
+      ]);
       setProjects(res.data || []);
+      setQuota(quotaRes.data.quota);
     } catch (err) {
       setError('Failed to load projects');
       setProjects([]);
@@ -159,7 +165,14 @@ const ProjectsPage = () => {
       <div className="flex justify-between items-center flex-wrap gap-4">
         <div>
           <h1 className="font-cabinet font-extrabold text-5xl uppercase tracking-tighter">Projects</h1>
-          <p className="font-satoshi font-medium text-ui-black/60 mt-2">Manage your portfolio projects (max 15).</p>
+          <div className="flex items-center gap-2 mt-2">
+            <p className="font-satoshi font-medium text-ui-black/60">Manage your portfolio projects (max 15).</p>
+            {quota && (
+              <span className="px-2 py-0.5 bg-ui-black text-primary-yellow font-cabinet font-extrabold text-[10px] uppercase tracking-widest neo-border-sm">
+                Images: {quota.total_images_uploaded} / {quota.max_image_limit}
+              </span>
+            )}
+          </div>
         </div>
         <div className="flex items-center gap-3">
           <div className="neo-border-sm flex">

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { NeoButton } from '@/components/ui/NeoButton';
@@ -11,16 +11,24 @@ const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { signup } = useAuth();
+  const { signup, user, loading } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user && !loading) {
+      navigate('/dashboard');
+    }
+  }, [user, loading, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
+    const trimmedEmail = email.trim();
+    const trimmedName = name.trim();
     try {
-      await signup(email, password, name);
-      navigate('/confirm-signup', { state: { email } });
+      await signup(trimmedEmail, password, trimmedName);
+      navigate('/confirm-signup', { state: { email: trimmedEmail } });
     } catch (err) {
       setError(err.response?.data?.message || 'Signup failed. Please try again.');
     } finally {

@@ -7,9 +7,21 @@ const Testimonials = () => {
         <h2 className="font-cabinet font-extrabold text-5xl mb-16 text-center tracking-tighter uppercase">What Builders Say</h2>
         <div className="grid md:grid-cols-3 gap-8">
           {[
-            { name: "Sarah J.", role: "Senior Dev", text: "ProfileForge transformed my job search. No more manual updates!" },
-            { name: "Michael K.", role: "CTO", text: "The cleanest data visualization tool I've ever used. Simply incredible." },
-            { name: "Elena R.", role: "Creator", text: "Finally, a platform that feels as energetic as the tech world itself." }
+            {
+              name: "Sarah J.", 
+              role: "Students", 
+              text: "Finally, a place where all my coding progress is visible in one dashboard." 
+            },
+            { 
+              name: "Michael K.", 
+              role: "Placement Lead", 
+              text: "This makes my portfolio 10x stronger for placements and interviews." 
+            },
+            { 
+              name: "Elena R.", 
+              role: "Competitive Coder", 
+              text: "Super clean and actually useful — not just another generic portfolio tracker." 
+            }
           ].map((t, i) => (
             <div key={i} className="bg-ui-white p-8 neo-border rounded-br-[3xl] rounded-tl-[3xl]">
               <div className="flex gap-1 mb-4">

@@ -4,6 +4,7 @@ import { NeoButton } from '@/components/ui/NeoButton';
 import { BrowserMockup } from '@/components/ui/BrowserMockup';
 import { User, Mail, Shield, Zap, Save, Trash2, Camera, Loader2, CheckCircle2 } from 'lucide-react';
 import api from '@/lib/api';
+import { cn } from '@/lib/utils';
 
 const ProfilePage = () => {
   const { user, checkAuth } = useAuth();
@@ -12,10 +13,15 @@ const ProfilePage = () => {
   const getFullImageUrl = (path) => {
     if (!path) return null;
     if (path.startsWith('http')) return path;
-    return `${backendBaseUrl}/${path}`;
+    const normalizedPath = path.toString().replace(/\\/g, '/');
+    return `${backendBaseUrl}/${normalizedPath}`;
   };
 
   const [name, setName] = useState(user?.name || '');
+  const [email, setEmail] = useState(user?.email || '');
+  const [isEditingEmail, setIsEditingEmail] = useState(false);
+  const [isVerifyingEmail, setIsVerifyingEmail] = useState(false);
+  const [otp, setOtp] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
@@ -31,6 +37,41 @@ const ProfilePage = () => {
       setSuccess('Name updated successfully!');
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to update name');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleUpdateEmail = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setSuccess('');
+    setError('');
+    try {
+      await api.put('/profile/email', { email });
+      setSuccess('Verification code sent to your new email address. Please enter it below.');
+      setIsVerifyingEmail(true);
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to update email');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleVerifyEmail = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setSuccess('');
+    setError('');
+    try {
+      await api.put('/profile/verify-email', { code: otp, email: email });
+      await checkAuth();
+      setSuccess('Email updated successfully!');
+      setIsVerifyingEmail(false);
+      setIsEditingEmail(false);
+      setOtp('');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to verify email');
     } finally {
       setIsLoading(false);
     }
@@ -137,38 +178,94 @@ const ProfilePage = () => {
         {/* Right Col: Forms */}
         <div className="md:col-span-2 space-y-8">
           <BrowserMockup title="Identity Control">
-            <form onSubmit={handleUpdateName} className="space-y-6">
-              <div className="space-y-2">
-                <label className="font-cabinet font-extrabold text-lg uppercase tracking-tighter block">Display Name</label>
-                <input
-                  type="text"
-                  required
-                  className="w-full h-14 px-4 bg-ui-white neo-border font-satoshi font-bold focus:bg-primary-yellow/10 focus:outline-none transition-colors"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Your Name"
-                />
-              </div>
-
-              <div className="space-y-2 opacity-50 cursor-not-allowed">
-                <label className="font-cabinet font-extrabold text-lg uppercase tracking-tighter block">Email Address</label>
-                <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5" />
+            <div className="space-y-8">
+              {/* Name Form */}
+              <form onSubmit={handleUpdateName} className="space-y-4">
+                <div className="space-y-2">
+                  <label className="font-cabinet font-extrabold text-lg uppercase tracking-tighter block">Display Name</label>
                   <input
-                    type="email"
-                    disabled
-                    className="w-full h-14 pl-12 pr-4 bg-slate-50 neo-border font-satoshi font-bold"
-                    value={user?.email || ''}
+                    type="text"
+                    required
+                    className="w-full h-14 px-4 bg-ui-white neo-border font-satoshi font-bold focus:bg-primary-yellow/10 focus:outline-none transition-colors"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Your Name"
                   />
                 </div>
-                <p className="text-[10px] font-satoshi font-bold italic">Email changes are foraged via support only.</p>
-              </div>
+                <NeoButton type="submit" variant="primary" className="gap-2" disabled={isLoading}>
+                  {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                  Save Name
+                </NeoButton>
+              </form>
 
-              <NeoButton type="submit" variant="primary" className="gap-2" disabled={isLoading}>
-                {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                Save Transformation
-              </NeoButton>
-            </form>
+              <hr className="border-t-2 border-ui-black border-dashed" />
+
+              {/* Email Form */}
+              <div className="space-y-4">
+                <form onSubmit={handleUpdateEmail} className="space-y-4">
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <label className="font-cabinet font-extrabold text-lg uppercase tracking-tighter block">Email Address</label>
+                      <button 
+                        type="button"
+                        onClick={() => {
+                          setIsEditingEmail(!isEditingEmail);
+                          setIsVerifyingEmail(false);
+                          setOtp('');
+                        }}
+                        className="text-xs font-satoshi font-bold underline cursor-pointer hover:text-primary-yellow transition-colors"
+                      >
+                        {isEditingEmail ? "Cancel" : "Change Email"}
+                      </button>
+                    </div>
+                    <div className="relative">
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-ui-black/60" />
+                      <input
+                        type="email"
+                        required
+                        disabled={!isEditingEmail || isVerifyingEmail}
+                        className={cn(
+                          "w-full h-14 pl-12 pr-4 bg-ui-white neo-border font-satoshi font-bold focus:bg-primary-yellow/10 focus:outline-none transition-colors",
+                          (!isEditingEmail || isVerifyingEmail) && "bg-slate-50 opacity-70 cursor-not-allowed dark:bg-charcoal/50"
+                        )}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                    </div>
+                    <p className="text-[10px] font-satoshi font-extrabold text-ui-black/50 italic">
+                      Changing your email requires verification sent to the new address.
+                    </p>
+                  </div>
+
+                  {isEditingEmail && !isVerifyingEmail && (
+                    <NeoButton type="submit" variant="primary" className="gap-2" disabled={isLoading}>
+                      {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                      Send verification OTP
+                    </NeoButton>
+                  )}
+                </form>
+
+                {isVerifyingEmail && (
+                  <form onSubmit={handleVerifyEmail} className="space-y-4 pt-2 border-t border-dashed border-ui-black/20">
+                    <div className="space-y-2">
+                      <label className="font-cabinet font-extrabold text-xs uppercase tracking-widest block">Verification Code</label>
+                      <input
+                        type="text"
+                        required
+                        className="w-full h-12 px-4 bg-ui-white neo-border font-satoshi font-bold focus:bg-primary-yellow/10 focus:outline-none"
+                        placeholder="Enter 6-digit Code"
+                        value={otp}
+                        onChange={(e) => setOtp(e.target.value)}
+                      />
+                    </div>
+                    <NeoButton type="submit" variant="primary" className="gap-2 w-full justify-center" disabled={isLoading}>
+                      {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                      Verify & Update Email
+                    </NeoButton>
+                  </form>
+                )}
+              </div>
+            </div>
           </BrowserMockup>
 
           <div className="bg-red-50 neo-border p-8 border-red-200">

@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, BarChart2, Trophy, Rocket } from "lucide-react";
 import { NeoButton } from "@/components/ui/NeoButton";
 import { BrowserMockup } from "@/components/ui/BrowserMockup";
 
@@ -15,26 +15,40 @@ const Hero = () => {
           transition={{ duration: 0.5 }}
         >
           <div className="inline-flex items-center bg-ui-white neo-border px-4 py-1 rounded-full mb-6">
-            <span className="font-satoshi font-bold text-sm">NEW: AI Content Assistant 2.0</span>
+            <span className="font-satoshi font-bold text-sm">NEW: Developer Identity Platform</span>
           </div>
-          <h1 className="font-cabinet font-extrabold text-6xl lg:text-8xl leading-none tracking-tighter text-ui-black mb-8 uppercase">
+          <h1 className="font-cabinet font-extrabold text-6xl lg:text-8xl leading-none tracking-tighter text-ui-black mb-6 uppercase">
             Forge Your <br />
             <span style={{ WebkitTextStroke: "2px black", color: "transparent" }}>Developer</span> <br />
-            Portfolio.
+            Identity.
           </h1>
-          <p className="font-satoshi font-medium text-xl text-ui-black/80 max-w-xl mb-10 leading-relaxed">
-            Connect GitHub, LeetCode, Codeforces, and Credly. <br />
-            Manage projects, certificates, and achievements — all through a single REST API.
+          <p className="font-satoshi font-medium text-xl text-ui-black/80 max-w-xl mb-6 leading-relaxed">
+            Connect your coding profiles, track your progress, and showcase your achievements — all in one powerful dashboard.
           </p>
+          
+          <div className="space-y-3 mb-10">
+            <div className="flex items-center gap-2 font-satoshi font-bold text-base text-ui-black/80">
+              <BarChart2 className="w-5 h-5 text-purple-600" /> Unified coding stats across platforms
+            </div>
+            <div className="flex items-center gap-2 font-satoshi font-bold text-base text-ui-black/80">
+              <Trophy className="w-5 h-5 text-yellow-600" /> Showcase badges & certificates
+            </div>
+            <div className="flex items-center gap-2 font-satoshi font-bold text-base text-ui-black/80">
+              <Rocket className="w-5 h-5 text-red-500" /> Build a professional dev profile in minutes
+            </div>
+          </div>
+
           <div className="flex flex-col sm:flex-row gap-6">
             <Link to="/signup">
-              <NeoButton variant="primary" size="lg" className="w-full sm:w-auto uppercase tracking-tighter">
-                Get Your API Key <ArrowRight className="ml-2 w-6 h-6" />
+              <NeoButton variant="primary" size="lg" className="w-full sm:w-auto uppercase tracking-tighter text-xl px-8 py-6">
+                Get Started <ArrowRight className="ml-2 w-6 h-6" />
               </NeoButton>
             </Link>
-            <NeoButton variant="secondary" size="lg" className="w-full sm:w-auto uppercase tracking-tighter">
-              View API Docs
-            </NeoButton>
+            <a href="#docs" className="w-full sm:w-auto">
+              <NeoButton variant="secondary" size="lg" className="w-full uppercase tracking-tighter text-xl px-8 py-6">
+                View Docs
+              </NeoButton>
+            </a>
           </div>
         </motion.div>
 

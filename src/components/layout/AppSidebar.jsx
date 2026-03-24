@@ -38,7 +38,8 @@ export function AppSidebar() {
   const getFullImageUrl = (path) => {
     if (!path) return null;
     if (path.startsWith('http')) return path;
-    return `${backendBaseUrl}/${path}`;
+    const normalizedPath = path.toString().replace(/\\/g, '/');
+    return `${backendBaseUrl}/${normalizedPath}`;
   };
 
   const handleLinkClick = () => {

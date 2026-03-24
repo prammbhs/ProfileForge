@@ -6,9 +6,10 @@ const Marquee = () => {
       <div className="flex gap-16 animate-marquee whitespace-nowrap">
         {[1, 2, 3, 4].map((i) => (
           <div key={i} className="flex gap-16">
-            {['Leetcode', 'Github','Codeforces', 'Credly'].map((brand) => (
-              <span key={brand} className="font-cabinet font-extrabold text-4xl text-sage/50 uppercase tracking-tighter">
-                {brand}
+            {['Trusted by developers from', 'GitHub users', 'LeetCode grinders', 'Codeforces competitors', 'Students & professionals'].map((text, idx) => (
+              <span key={idx} className="font-cabinet font-extrabold text-2xl text-sage/60 uppercase tracking-tighter flex items-center gap-4">
+                {idx > 0 && <span className="text-primary-yellow">•</span>}
+                {text}
               </span>
             ))}
           </div>

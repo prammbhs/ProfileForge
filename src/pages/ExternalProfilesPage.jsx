@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '@/lib/api';
 import { NeoButton } from '@/components/ui/NeoButton';
-import { Loader2, RefreshCw, CheckCircle2, AlertTriangle, Github, Code2, Zap, Award, Link2, X, Eye } from 'lucide-react';
+import { Loader2, RefreshCw, CheckCircle2, AlertTriangle, Github, Code2, Zap, Award, Link2, X, Eye, Edit2, Check, Copy } from 'lucide-react';
 
 const PLATFORMS = [
   { value: 'github', label: 'GitHub', icon: Github, color: 'bg-ui-black text-white', accent: '#333' },
@@ -12,40 +12,15 @@ const PLATFORMS = [
 
 // ── Data Preview Modal ────────────────────────────────────────────────────────
 const DataModal = ({ platform, data, onClose }) => {
+  const [copied, setCopied] = useState(false);
   if (!data) return null;
-  const entries = typeof data === 'object' && !Array.isArray(data) ? Object.entries(data) : [];
 
-  const renderValue = (val, depth = 0) => {
-    if (val === null || val === undefined) return <span className="text-ui-black/30">null</span>;
-    if (typeof val === 'boolean') return <span className={val ? 'text-green-600' : 'text-red-500'}>{String(val)}</span>;
-    if (typeof val === 'number') return <span className="text-blue-600">{val.toLocaleString()}</span>;
-    if (typeof val === 'string') {
-      if (val.startsWith('http')) return <a href={val} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline break-all">{val}</a>;
-      return <span className="break-all">{val.length > 120 ? val.slice(0, 120) + '…' : val}</span>;
-    }
-    if (Array.isArray(val)) {
-      if (val.length === 0) return <span className="text-ui-black/30">[]</span>;
-      if (depth > 1) return <span className="text-ui-black/40">[{val.length} items]</span>;
-      return (
-        <div className="pl-3 border-l-2 border-ui-black/10 space-y-1 mt-1">
-          {val.slice(0, 5).map((item, i) => <div key={i} className="text-xs">{renderValue(item, depth + 1)}</div>)}
-          {val.length > 5 && <span className="text-[10px] text-ui-black/30">+ {val.length - 5} more</span>}
-        </div>
-      );
-    }
-    if (typeof val === 'object') {
-      if (depth > 1) return <span className="text-ui-black/40">Object</span>;
-      const subEntries = Object.entries(val).slice(0, 6);
-      return (
-        <div className="pl-3 border-l-2 border-ui-black/10 space-y-1 mt-1">
-          {subEntries.map(([k, v]) => (
-            <div key={k} className="text-xs"><span className="font-bold text-ui-black/50">{k}:</span> {renderValue(v, depth + 1)}</div>
-          ))}
-          {Object.keys(val).length > 6 && <span className="text-[10px] text-ui-black/30">+ {Object.keys(val).length - 6} more</span>}
-        </div>
-      );
-    }
-    return <span>{String(val)}</span>;
+  const jsonString = JSON.stringify(data, null, 2);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(jsonString);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
@@ -59,27 +34,29 @@ const DataModal = ({ platform, data, onClose }) => {
             </div>
             <div>
               <h2 className="font-cabinet font-extrabold text-xl uppercase tracking-tighter">{platform.label} Data</h2>
-              <p className="font-satoshi text-xs text-ui-black/40">Fetched platform data preview</p>
+              <p className="font-satoshi text-xs text-ui-black/40">Raw structured data preview</p>
             </div>
           </div>
-          <button onClick={onClose} className="p-2 neo-border-sm hover:bg-primary-yellow transition-colors">
-            <X className="w-5 h-5" />
-          </button>
+          <div className="flex items-center gap-2">
+            <button 
+              onClick={handleCopy} 
+              className="flex items-center gap-1.5 px-3 py-1.5 neo-border-sm bg-ui-white hover:bg-primary-yellow transition-colors font-satoshi font-bold text-xs"
+            >
+              {copied ? <CheckCircle2 className="w-3.5 h-3.5 text-green-600" /> : <Copy className="w-3.5 h-3.5" />}
+              {copied ? "Copied!" : "Copy"}
+            </button>
+            <button onClick={onClose} className="p-2 neo-border-sm hover:bg-primary-yellow transition-colors">
+              <X className="w-5 h-5" />
+            </button>
+          </div>
         </div>
         {/* Modal Body */}
-        <div className="p-5 overflow-y-auto flex-1 space-y-3">
-          {entries.length === 0 ? (
-            <p className="font-satoshi text-sm text-ui-black/40 text-center py-8">No data available yet. Try fetching data first.</p>
-          ) : (
-            entries.map(([key, val]) => (
-              <div key={key} className="neo-border-sm p-3 hover:bg-primary-yellow/5 transition-colors">
-                <div className="font-cabinet font-extrabold text-xs uppercase tracking-widest text-ui-black/50 mb-1">
-                  {key.replace(/_/g, ' ')}
-                </div>
-                <div className="font-satoshi text-sm">{renderValue(val)}</div>
-              </div>
-            ))
-          )}
+        <div className="p-4 bg-[#1E1E1E] flex-1 overflow-hidden flex flex-col border-t border-ui-black">
+          <div className="flex-1 overflow-auto font-mono text-xs rounded-md bg-[#181818] border border-white/10 p-4 text-green-400">
+            <pre className="whitespace-pre scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+              {jsonString}
+            </pre>
+          </div>
         </div>
       </div>
     </div>
@@ -96,6 +73,11 @@ const ExternalProfilesPage = () => {
   const [connecting, setConnecting] = useState(null);
   const [syncing, setSyncing] = useState(null);
   const [modalData, setModalData] = useState(null); // { platform, data }
+
+  // Editing username state
+  const [editingPlatform, setEditingPlatform] = useState(null);
+  const [editUsername, setEditUsername] = useState('');
+  const [updating, setUpdating] = useState(false);
 
   const fetchProfiles = async () => {
     setLoading(true);
@@ -150,6 +132,23 @@ const ExternalProfilesPage = () => {
       setError(err.response?.data?.error || `Failed to sync ${platformValue}`);
     } finally {
       setSyncing(null);
+    }
+  };
+
+  const handleUpdateUsername = async (platformValue) => {
+    if (!editUsername.trim()) return;
+    setUpdating(true);
+    setError('');
+    setSuccess('');
+    try {
+      await api.put('/external-profile/update', { platform: platformValue, username: editUsername.trim() });
+      setSuccess(`@${editUsername} updated successfully for ${platformValue}!`);
+      setEditingPlatform(null);
+      fetchProfiles();
+    } catch (err) {
+      setError(err.response?.data?.error || `Failed to update ${platformValue} username`);
+    } finally {
+      setUpdating(false);
     }
   };
 
@@ -225,11 +224,48 @@ const ExternalProfilesPage = () => {
                 {isConnected ? (
                   <div className="space-y-4">
                     <div className="flex items-center justify-between gap-2">
-                      <div className="min-w-0">
+                      <div className="min-w-0 flex-1">
                         <p className="font-cabinet font-extrabold text-[10px] uppercase tracking-widest text-ui-black/40">Username</p>
-                        <p className="font-satoshi font-bold text-base sm:text-lg truncate">@{profile.username}</p>
+                        {editingPlatform === platform.value ? (
+                          <div className="flex gap-1.5 mt-1">
+                            <input 
+                              type="text"
+                              value={editUsername}
+                              onChange={(e) => setEditUsername(e.target.value)}
+                              className="w-full flex-1 px-2 py-1 neo-border-sm font-satoshi font-bold text-sm focus:outline-none"
+                              placeholder="New username"
+                            />
+                            <button 
+                              onClick={() => handleUpdateUsername(platform.value)}
+                              disabled={updating}
+                              className="p-1.5 neo-border-sm bg-green-500 text-white hover:bg-green-600 flex-shrink-0"
+                            >
+                              {updating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
+                            </button>
+                            <button 
+                              onClick={() => setEditingPlatform(null)}
+                              className="p-1.5 neo-border-sm bg-red-500 text-white hover:bg-red-600 flex-shrink-0"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-2">
+                            <p className="font-satoshi font-bold text-base sm:text-lg truncate">@{profile.username}</p>
+                            <button 
+                              onClick={() => {
+                                setEditingPlatform(platform.value);
+                                setEditUsername(profile.username);
+                              }}
+                              className="p-1 hover:bg-primary-yellow/20 rounded transition-opacity bg-primary-yellow/10"
+                              title="Edit Username"
+                            >
+                              <Edit2 className="w-3.5 h-3.5 text-ui-black" />
+                            </button>
+                          </div>
+                        )}
                       </div>
-                      {profile.profile_url && (
+                      {profile.profile_url && !editingPlatform && (
                         <a href={profile.profile_url} target="_blank" rel="noopener noreferrer"
                           className="p-2 neo-border-sm hover:bg-primary-yellow/20 transition-colors flex-shrink-0">
                           <Link2 className="w-4 h-4" />
@@ -275,7 +311,7 @@ const ExternalProfilesPage = () => {
               </div>
 
               {/* Card Footer */}
-              {isConnected && (
+              {isConnected && profile?.created_at && !isNaN(new Date(profile.created_at).getTime()) && (
                 <div className="px-6 py-3 border-t-2 border-ui-black/10 bg-sage/5">
                   <span className="font-satoshi text-[10px] text-ui-black/30">
                     Added {new Date(profile.created_at).toLocaleDateString()}

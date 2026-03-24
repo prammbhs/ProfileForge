@@ -9,15 +9,22 @@ const Navbar = () => {
   const { user, logout } = useAuth();
 
   const navLinks = [
-    { name: "Docs", href: "/docs" },
+    { name: "Docs", href: "/#docs" },
     { name: "Features", href: "/#features" },
     { name: "How it Works", href: "/#how-it-works" },
     { name: "Testimonials", href: "/#testimonials" },
   ];
 
+  const handleLogoClick = (e) => {
+    if (window.location.pathname === '/' || window.location.pathname === '/#') {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   return (
     <nav className="fixed top-0 left-0 right-0 h-20 bg-primary-yellow border-b-2 border-ui-black z-50 flex items-center justify-between px-6 lg:px-12">
-      <Link to="/" className="flex items-center gap-3">
+      <Link to="/" onClick={handleLogoClick} className="flex items-center gap-3">
         <div className="w-10 h-10 bg-ui-black flex items-center justify-center neo-border">
           <Zap className="text-primary-yellow w-6 h-6 fill-current" />
         </div>

@@ -111,34 +111,28 @@ const ApiKeysPage = () => {
         </div>
 
         {newlyGeneratedKey && (
-          <div className="bg-primary-yellow/20 neo-border p-4 space-y-2">
-            <div className="flex items-center gap-2">
-              <AlertTriangle className="w-4 h-4 text-ui-black" />
-              <span className="font-cabinet font-extrabold text-sm uppercase">Copy this key now — you won't see it again!</span>
-            </div>
-            <div className="flex gap-2">
-              <code className="flex-1 bg-ui-white p-3 neo-border font-mono text-sm break-all">{newlyGeneratedKey}</code>
-              <NeoButton variant="secondary" onClick={() => copyToClipboard(newlyGeneratedKey)} className="px-4 flex-shrink-0">
-                <Copy className="w-4 h-4" />
+          <div className="fixed inset-0 bg-ui-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in">
+            <div className="bg-ui-white neo-border neo-shadow-lg p-8 max-w-md w-full space-y-5 animate-in scale-in">
+              <div className="flex items-center gap-2 text-primary-yellow">
+                <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
+                <span className="font-cabinet font-extrabold text-xl uppercase tracking-tighter text-ui-black">API Key Generated</span>
+              </div>
+              <p className="font-satoshi font-bold text-xs text-ui-black/60">
+                Please copy this key immediately. For your security, you will not be able to retrieve it again once this popup is closed!
+              </p>
+              <div className="flex gap-2">
+                <code className="flex-1 bg-sage/5 p-3 neo-border font-mono text-sm break-all select-all">{newlyGeneratedKey}</code>
+                <NeoButton variant="secondary" onClick={() => copyToClipboard(newlyGeneratedKey)} className="px-4">
+                  <Copy className="w-4 h-4" />
+                </NeoButton>
+              </div>
+              <NeoButton variant="primary" className="w-full justify-center" onClick={() => setNewlyGeneratedKey(null)}>
+                I have backed it up
               </NeoButton>
             </div>
           </div>
         )}
       </div>
-
-      {/* Quota */}
-      {quota && (
-        <div className="bg-sage/10 border-2 border-dashed border-ui-black/20 p-6 flex items-center justify-between">
-          <div>
-            <span className="font-cabinet font-extrabold text-sm uppercase tracking-widest text-ui-black/40">API Calls Used</span>
-            <div className="font-cabinet font-extrabold text-3xl mt-1">{quota.api_calls_used} <span className="text-lg text-ui-black/40">/ {quota.max_api_calls}</span></div>
-          </div>
-          <div>
-            <span className="font-cabinet font-extrabold text-sm uppercase tracking-widest text-ui-black/40">Images Uploaded</span>
-            <div className="font-cabinet font-extrabold text-3xl mt-1">{quota.total_images_uploaded} <span className="text-lg text-ui-black/40">/ {quota.max_image_limit}</span></div>
-          </div>
-        </div>
-      )}
 
       {/* Existing Keys */}
       <div className="space-y-4">

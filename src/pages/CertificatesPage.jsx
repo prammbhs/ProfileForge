@@ -17,10 +17,16 @@ const CertificatesPage = () => {
   const [uploadedFileKey, setUploadedFileKey] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
 
+  const [quota, setQuota] = useState(null);
+
   const fetchCertificates = async () => {
     try {
-      const res = await api.get('/certificates');
+      const [res, quotaRes] = await Promise.all([
+        api.get('/certificates'),
+        api.get('/keys/quota')
+      ]);
       setCertificates(res.data || []);
+      setQuota(quotaRes.data.quota);
     } catch (err) {
       setError('Failed to load certificates');
     } finally {
@@ -150,7 +156,14 @@ const CertificatesPage = () => {
       <div className="flex justify-between items-center flex-wrap gap-4">
         <div>
           <h1 className="font-cabinet font-extrabold text-5xl uppercase tracking-tighter">Certificates</h1>
-          <p className="font-satoshi font-medium text-ui-black/60 mt-2">Showcase your professional credentials.</p>
+          <div className="flex items-center gap-2 mt-2">
+            <p className="font-satoshi font-medium text-ui-black/60">Showcase your professional credentials.</p>
+            {quota && (
+              <span className="px-2 py-0.5 bg-ui-black text-primary-yellow font-cabinet font-extrabold text-[10px] uppercase tracking-widest neo-border-sm">
+                Images: {quota.total_images_uploaded} / {quota.max_image_limit}
+              </span>
+            )}
+          </div>
         </div>
         <div className="flex items-center gap-3">
           <div className="neo-border-sm flex">

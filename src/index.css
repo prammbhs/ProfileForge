@@ -97,13 +97,87 @@
 }
 
 .dark {
-  --sidebar: hsl(240 5.9% 10%);
-  --sidebar-foreground: hsl(240 4.8% 95.9%);
-  --sidebar-primary: hsl(224.3 76.3% 48%);
+  --color-background: #171e19; /* Design.md background */
+  --color-foreground: #f4fbf3; /* Dark text contrast */
+  --color-ui-white: #18221c; /* Dark surface for lists/cards */
+  --color-ui-black: #ffffff; /* Invert pure black text to white */
+  --color-sage: #304036;
+
+  --sidebar: #121915;
+  --sidebar-foreground: #f4fbf3;
+  --sidebar-accent: #ffe17c;
+  --sidebar-accent-foreground: #000000;
+  --sidebar-border: #000000;
+  --sidebar-primary: #ffe17c;
+}
+
+/* Enforce Neo-Brutalist Black borders in Dark Mode */
+.dark .border-ui-black,
+.dark .neo-border,
+.dark .neo-border-sm {
+  border-color: #000000 !important;
+}
+
+/* Keep shadows black in dark mode to retain high physical depths */
+.dark .neo-shadow {
+  box-shadow: 4px 4px 0px 0px #000000 !important;
+}
+.dark .neo-shadow-lg {
+  box-shadow: 8px 8px 0px 0px #000000 !important;
+}
+
+.dark .dot-pattern {
+  background-image: radial-gradient(#ffffff 0.5px, transparent 0.5px);
+  background-size: 32px 32px;
+  opacity: 0.05;
+}
+
+/* Ensure readable text color on accent/yellow areas in Dark Mode */
+.dark .bg-primary-yellow,
+.dark .bg-primary-yellow * {
+  color: #000000 !important;
+}
+
+/* Override absolute text flipping specifically for primary yellow sub-headers */
+.dark .bg-primary-yellow .text-ui-black,
+.dark .bg-primary-yellow [class*="text-ui-black"] {
+  color: #000000 !important;
+}
+
+/* Fix for inner dark cards (using bg-ui-white) inside a primary-yellow container in Dark Mode */
+.dark .bg-primary-yellow .bg-ui-white,
+.dark .bg-primary-yellow .bg-ui-white * {
+  color: #ffffff !important;
+}
+
+/* Brute-force text overrides for dark mode titles and labels relying on text-ui-black */
+.dark .text-ui-black {
+  color: #ffffff !important;
+}
+.dark .text-ui-black\/10 {
+  color: rgba(255, 255, 255, 0.1) !important;
+}
+.dark .text-ui-black\/15 {
+  color: rgba(255, 255, 255, 0.15) !important;
+}
+.dark .text-ui-black\/20 {
+  color: rgba(255, 255, 255, 0.2) !important;
+}
+.dark .text-ui-black\/30 {
+  color: rgba(255, 255, 255, 0.3) !important;
+}
+.dark .text-ui-black\/40 {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+.dark .text-ui-black\/50 {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+.dark .text-ui-black\/60 {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.dark {
   --sidebar-primary-foreground: hsl(0 0% 100%);
-  --sidebar-accent: hsl(240 3.7% 15.9%);
-  --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
-  --sidebar-border: hsl(240 3.7% 15.9%);
   --sidebar-ring: hsl(217.2 91.2% 59.8%);
 }
 
