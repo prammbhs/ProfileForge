@@ -1,6 +1,7 @@
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { Analytics } from '@vercel/analytics/react';
 import Layout from './components/layout/Layout';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 
@@ -21,6 +22,7 @@ import DashboardLayout from './components/layout/DashboardLayout';
 function App() {
   return (
     <AuthProvider>
+      <Analytics />
       <Router>
         <Routes>
           {/* Public Routes with Layout */}
