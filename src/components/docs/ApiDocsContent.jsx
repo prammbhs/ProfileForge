@@ -168,7 +168,7 @@ const ApiDocsContent = () => {
           <p className="font-satoshi text-lg mb-8">
             Access raw platform metadata specifically for deep integrations.
           </p>
-          <div className="bg-[#1A1A1A] text-white p-4 sm:p-8 neo-border-sm relative overflow-hidden group">
+          <div className="bg-[#1A1A1A] text-white p-4 sm:p-8 neo-border-sm relative overflow-hidden group mb-6">
             <Zap className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 text-primary-yellow/5 fill-current rotate-12 transition-transform duration-1000 group-hover:rotate-45" />
             <div className="relative z-10">
               <span className="font-mono text-primary-yellow mb-2 block">GET /api/v1/keys/platforms/:name</span>
@@ -178,6 +178,45 @@ const ApiDocsContent = () => {
                 ))}
               </div>
             </div>
+          </div>
+
+          <div className="grid sm:grid-cols-2 gap-4 mb-12">
+            {[
+              {
+                name: "GitHub",
+                metrics: ["username", "public_repos", "followers", "stars_received"],
+                desc: "Fetches user profile, repositories count and social metrics."
+              },
+              {
+                name: "LeetCode",
+                metrics: ["ranking", "easy_solved", "medium_solved", "hard_solved", "total"],
+                desc: "Real-time DSA problem-solving aggregates & ranking stats."
+              },
+              {
+                name: "Codeforces",
+                metrics: ["handle", "rating", "rank", "maxRating", "maxRank"],
+                desc: "Track competitive programming tiers and peak ratings."
+              },
+              {
+                name: "Credly",
+                metrics: ["badges_count", "issuer_names", "badge_images", "verify_urls"],
+                desc: "Returns verified professional certifications & credentials."
+              }
+            ].map(platform => (
+              <div key={platform.name} className="p-4 bg-ui-white neo-border hover:bg-primary-yellow/5 transition-colors">
+                <h4 className="font-cabinet font-extrabold text-base uppercase mb-2 flex items-center gap-2">
+                  <span className="w-2 h-2 bg-primary-yellow rounded-full" /> {platform.name} Payload
+                </h4>
+                <p className="font-satoshi text-xs text-ui-black/60 mb-4">{platform.desc}</p>
+                <div className="flex flex-wrap gap-1">
+                  {platform.metrics.map(m => (
+                    <span key={m} className="px-1.5 py-0.5 bg-ui-black/5 font-mono text-[9px] font-bold text-ui-black/80 rounded border border-ui-black/10">
+                      {m}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 
@@ -189,7 +228,7 @@ const ApiDocsContent = () => {
               To maintain service stability, all endpoints are rate-limited to **1000 requests per hour** per API key.
             </p>
             <p className="font-satoshi text-lg leading-relaxed">
-              🚀 **CORS is enabled globally**, meaning you can securely make calls directly from client-side JavaScript applications without hitting cross-origin blocks!
+              **CORS is enabled globally**, meaning you can securely make calls directly from client-side JavaScript applications without hitting cross-origin blocks!
             </p>
           </div>
         </section>
