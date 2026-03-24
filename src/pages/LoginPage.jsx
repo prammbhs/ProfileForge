@@ -34,32 +34,32 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-160px)] bg-primary-yellow dot-pattern flex items-center justify-center p-6">
-      <div className="w-full max-w-md bg-ui-white neo-border neo-shadow-lg p-10">
+    <div className="min-h-[calc(100vh-160px)] bg-primary-yellow dark:bg-charcoal dot-pattern flex items-center justify-center p-6">
+      <div className="w-full max-w-md bg-ui-white dark:bg-[#1A1D1A] dark:text-white neo-border neo-shadow-lg p-10">
         <div className="text-center mb-10">
-          <div className="w-16 h-16 bg-ui-black flex items-center justify-center neo-border mx-auto mb-6">
+          <div className="w-16 h-16 bg-ui-black dark:bg-[#111] flex items-center justify-center neo-border mx-auto mb-6">
             <Zap className="text-primary-yellow w-10 h-10 fill-current" />
           </div>
-          <h1 className="font-cabinet font-extrabold text-4xl uppercase tracking-tighter">Welcome Back</h1>
-          <p className="font-satoshi font-medium text-ui-black/60 mt-2">Enter your stats to access the forge.</p>
+          <h1 className="font-cabinet font-extrabold text-4xl uppercase tracking-tighter dark:text-white">Welcome Back</h1>
+          <p className="font-satoshi font-medium text-ui-black/60 dark:text-white/60 mt-2">Enter your stats to access the forge.</p>
         </div>
 
         {error && (
-          <div className="bg-red-50 border-2 border-red-600 p-4 mb-8 flex items-center gap-3">
-            <AlertCircle className="text-red-600 w-5 h-5 flex-shrink-0" />
-            <p className="font-satoshi font-bold text-red-600 text-sm italic">{error}</p>
+          <div className="bg-red-50 dark:bg-red-950/20 border-2 border-red-600 p-4 mb-8 flex items-center gap-3">
+            <AlertCircle className="text-red-600 dark:text-red-400 w-5 h-5 flex-shrink-0" />
+            <p className="font-satoshi font-bold text-red-600 dark:text-red-400 text-sm italic">{error}</p>
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
-            <label className="font-cabinet font-extrabold text-lg uppercase tracking-tighter block">Email Address</label>
+            <label className="font-cabinet font-extrabold text-lg uppercase tracking-tighter block dark:text-white">Email Address</label>
             <div className="relative">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-ui-black/40" />
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-ui-black/40 dark:text-white/40" />
               <input
                 type="email"
                 required
-                className="w-full h-14 pl-12 pr-4 bg-ui-white neo-border font-satoshi font-bold focus:bg-primary-yellow/10 focus:outline-none transition-colors"
+                className="w-full h-14 pl-12 pr-4 bg-ui-white dark:bg-[#222522] dark:text-white neo-border font-satoshi font-bold focus:bg-primary-yellow/10 focus:outline-none transition-colors"
                 placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value.trimStart())}
@@ -69,22 +69,22 @@ const LoginPage = () => {
 
           <div className="space-y-2">
             <div className="flex justify-between items-center">
-              <label className="font-cabinet font-extrabold text-lg uppercase tracking-tighter block">Password</label>
-              <Link to="/forgot-password" size="sm" className="font-satoshi font-bold text-sm text-ui-black/60 hover:text-ui-black underline decoration-2 underline-offset-4 tracking-tighter uppercase">Forgot?</Link>
+              <label className="font-cabinet font-extrabold text-lg uppercase tracking-tighter block dark:text-white">Password</label>
+              <Link to="/forgot-password" size="sm" className="font-satoshi font-bold text-sm text-ui-black/60 dark:text-white/60 hover:text-ui-black dark:hover:text-white underline decoration-2 underline-offset-4 tracking-tighter uppercase">Forgot?</Link>
             </div>
             <div className="relative">
-              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-ui-black/40" />
+              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-ui-black/40 dark:text-white/40" />
               <input
                 type={showPassword ? "text" : "password"}
                 required
-                className="w-full h-14 pl-12 pr-12 bg-ui-white neo-border font-satoshi font-bold focus:bg-primary-yellow/10 focus:outline-none transition-colors"
+                className="w-full h-14 pl-12 pr-12 bg-ui-white dark:bg-[#222522] dark:text-white neo-border font-satoshi font-bold focus:bg-primary-yellow/10 focus:outline-none transition-colors"
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
               <button
                 type="button"
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-ui-black/40 hover:text-ui-black transition-colors"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-ui-black/40 dark:text-white/40 hover:text-ui-black dark:hover:text-white transition-colors"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
@@ -96,7 +96,7 @@ const LoginPage = () => {
             type="submit" 
             variant="primary" 
             size="lg" 
-            className="w-full text-xl"
+            className="w-full text-xl dark:bg-primary-yellow dark:text-ui-black"
             disabled={isLoading}
           >
             {isLoading ? 'Foraging...' : 'Login to Forge'}
