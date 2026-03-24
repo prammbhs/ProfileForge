@@ -64,7 +64,7 @@ const ApiDocsContent = () => {
                 { step: "2", title: "Generate Key", desc: "Navigate to Dashboard -> API Keys and click 'Generate Key'." },
                 { step: "3", title: "Start Requesting", desc: "Send your first GET request appending headers mapping securely." }
               ].map((item, idx) => (
-                <div key={idx} className="flex gap-4 items-start p-4 bg-slate-50 neo-border border-dashed">
+                <div key={idx} className="flex gap-4 items-start p-4 bg-ui-white neo-border border-dashed">
                   <div className="font-cabinet font-extrabold text-5xl text-primary-yellow" style={{ WebkitTextStroke: '1px black' }}>{item.step}</div>
                   <div>
                     <h4 className="font-cabinet font-extrabold text-lg uppercase tracking-tight mb-1">{item.title}</h4>
@@ -168,7 +168,7 @@ const ApiDocsContent = () => {
           <p className="font-satoshi text-lg mb-8">
             Access raw platform metadata specifically for deep integrations.
           </p>
-          <div className="bg-ui-black text-white p-4 sm:p-8 neo-border-sm relative overflow-hidden group">
+          <div className="bg-[#1A1A1A] text-white p-4 sm:p-8 neo-border-sm relative overflow-hidden group">
             <Zap className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 text-primary-yellow/5 fill-current rotate-12 transition-transform duration-1000 group-hover:rotate-45" />
             <div className="relative z-10">
               <span className="font-mono text-primary-yellow mb-2 block">GET /api/v1/keys/platforms/:name</span>

@@ -26,8 +26,9 @@ const SignupPage = () => {
     setError('');
     const trimmedEmail = email.trim();
     const trimmedName = name.trim();
+    const trimmedPassword = password.trim();
     try {
-      await signup(trimmedEmail, password, trimmedName);
+      await signup(trimmedEmail, trimmedPassword, trimmedName);
       navigate('/confirm-signup', { state: { email: trimmedEmail } });
     } catch (err) {
       setError(err.response?.data?.message || 'Signup failed. Please try again.');

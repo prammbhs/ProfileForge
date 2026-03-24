@@ -24,7 +24,7 @@ const LoginPage = () => {
     setIsLoading(true);
     setError('');
     try {
-      await login(email.trim(), password);
+      await login(email.trim(), password.trim());
       navigate('/dashboard');
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed. Please check your credentials.');

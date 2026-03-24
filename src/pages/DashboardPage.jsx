@@ -72,7 +72,7 @@ const DashboardPage = () => {
   const badgesArray = badges ? Object.values(badges) : [];
 
   const PLATFORM_META = {
-    github: { label: 'GitHub', icon: Github, color: 'bg-ui-black text-white' },
+    github: { label: 'GitHub', icon: Github, color: 'bg-neutral-900 text-white' },
     leetcode: { label: 'LeetCode', icon: Code2, color: 'bg-[#FFA116] text-white' },
     codeforces: { label: 'Codeforces', icon: Zap, color: 'bg-[#1F8ACB] text-white' },
     credly: { label: 'Credly', icon: Award, color: 'bg-[#FF6B6B] text-white' },
