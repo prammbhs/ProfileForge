@@ -65,7 +65,7 @@ const SignupPage = () => {
                 className="w-full h-14 pl-12 pr-4 bg-ui-white neo-border font-satoshi font-bold focus:bg-primary-yellow/10 focus:outline-none transition-colors"
                 placeholder="John Doe"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => setName(e.target.value.trimStart())}
               />
             </div>
           </div>
@@ -80,7 +80,7 @@ const SignupPage = () => {
                 className="w-full h-14 pl-12 pr-4 bg-ui-white neo-border font-satoshi font-bold focus:bg-primary-yellow/10 focus:outline-none transition-colors"
                 placeholder="you@example.com"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value.trimStart())}
               />
             </div>
           </div>
