@@ -7,7 +7,7 @@ import { BrowserMockup } from "@/components/ui/BrowserMockup";
 
 const Hero = () => {
   return (
-    <section className="pt-32 pb-20 px-6 lg:px-12 bg-primary-yellow dot-pattern border-b-2 border-ui-black overflow-hidden">
+    <section className="pt-15 pb-20 px-6 lg:px-12 bg-primary-yellow dot-pattern border-b-2 border-ui-black overflow-hidden">
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
         <motion.div 
           initial={{ opacity: 0, x: -50 }}
