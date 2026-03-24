@@ -39,8 +39,13 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    await api.post("/logout");
-    setUser(null);
+    try {
+      await api.post("/logout");
+    } catch (error) {
+      console.warn("Logout API failed or session already dead:", error);
+    } finally {
+      setUser(null);
+    }
   };
 
   return (
