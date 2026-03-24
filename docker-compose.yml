@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  frontend:
+    build: .
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/frontend
+    environment:
+      - NODE_ENV=Production
