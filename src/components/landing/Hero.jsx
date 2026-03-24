@@ -58,23 +58,48 @@ const Hero = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
         >
           <BrowserMockup className="max-w-xl mx-auto">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-sage p-4 neo-border">
-                <h3 className="font-cabinet font-bold text-lg mb-2">Revenue</h3>
-                <div className="h-20 bg-ui-white/50 animate-pulse rounded" />
-              </div>
-              <div className="bg-charcoal p-4 neo-border text-ui-white">
-                <h3 className="font-cabinet font-bold text-lg mb-2">Growth</h3>
-                <div className="text-3xl font-extrabold text-primary-yellow">+24%</div>
-              </div>
-              <div className="col-span-2 bg-ui-white p-4 neo-border">
-                <h3 className="font-cabinet font-bold text-lg mb-4">Analytics Dashboard</h3>
-                <div className="space-y-3">
-                  <div className="h-4 bg-sage/30 rounded w-3/4" />
-                  <div className="h-4 bg-sage/30 rounded w-1/2" />
-                  <div className="h-4 bg-sage/30 rounded w-5/6" />
+            <div className="grid grid-cols-2 gap-4 p-2 bg-[#F5F5F7] dark:bg-[#1C1C1E]">
+              {[
+                {
+                  name: "GitHub",
+                  color: "bg-ui-black text-white",
+                  borderColor: "border-ui-black",
+                  metrics: ["followers", "public_repos", "stars_received"]
+                },
+                {
+                  name: "LeetCode",
+                  color: "bg-[#FFA116] text-ui-black",
+                  borderColor: "border-[#FFA116]",
+                  metrics: ["ranking", "easy_solved", "medium_solved"]
+                },
+                {
+                  name: "Codeforces",
+                  color: "bg-[#318CE7] text-white",
+                  borderColor: "border-[#318CE7]",
+                  metrics: ["rating", "rank", "maxRating"]
+                },
+                {
+                  name: "Credly",
+                  color: "bg-[#FF6A00] text-white",
+                  borderColor: "border-[#FF6A00]",
+                  metrics: ["badges_count", "verify_urls", "badge_images"]
+                }
+              ].map(platform => (
+                <div key={platform.name} className={`${platform.color} p-4 neo-border shadow-solid hover:-translate-y-1 transition-all duration-200 cursor-default group`}>
+                  <h4 className="font-cabinet font-extrabold text-xs uppercase mb-3 flex items-center justify-between">
+                    <span>{platform.name} API</span>
+                    <span className="w-2 h-2 rounded-full bg-current animate-pulse" />
+                  </h4>
+                  <div className="space-y-1.5">
+                    {platform.metrics.map(m => (
+                      <div key={m} className="flex items-center justify-between font-mono text-[9px] opacity-90 border-b border-current/10 pb-0.5">
+                        <span className="truncate">{m}</span>
+                        <span className="font-black text-emerald-400 group-hover:scale-110 transition-transform">✓</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
           </BrowserMockup>
         </motion.div>
